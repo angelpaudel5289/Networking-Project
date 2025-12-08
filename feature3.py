@@ -1,38 +1,69 @@
-# simple chat interface using tkinter
-from socket import *
+import socket
 import threading
-from tkinter import *
+import tkinter as tk
+from tkinter import scrolledtext
 
-server_ip = "127.0.0.1"
-server_port = 5000
-client_socket = socket(AF_INET, SOCK_STREAM)
-client_socket.connect((server_ip, server_port))
+SERVER_IP = "127.0.0.1"
+SERVER_PORT = 5555
 
-def add_msg(text):
-    print(text)
+class ChatClientGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("Broadcast Chat - Feature 3 GUI")
 
-def set_msg_callback(callback):
-    global add_message
-    add_msg = callback
+        self.chat_area = scrolledtext.ScrolledText(master, wrap=tk.WORD, width=50, height=20)
+        self.chat_area.pack(padx=10, pady=10)
+        self.chat_area.config(state="disabled")
 
-def rcv_msgs():
-    while True:
-        try: 
-            data = client_socket.recv(1024)
-            if not data:
-                add_msg("[Server disconnected]")
-                break
-            add_msg(data.decode())
+        self.entry_msg = tk.Entry(master, width=40)
+        self.entry_msg.pack(side=tk.LEFT, padx=10, pady=10)
+
+        self.send_btn = tk.Button(master, text="Send", command=self.send_message)
+        self.send_btn.pack(side=tk.LEFT)
+
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((SERVER_IP, SERVER_PORT))
+
+        recv_thread = threading.Thread(target=self.receive_messages)
+        recv_thread.daemon = True
+        recv_thread.start()
+
+    def send_message(self):
+        """Send message to server when user clicks Send"""
+        msg = self.entry_msg.get()
+        if msg.strip() == "":
+            return
+        try:
+            self.client_socket.send(msg.encode())
+            self.entry_msg.delete(0, tk.END)
         except:
-            break
+            self.display_message("Connection lost.\n")
 
-threading.Thread(target=rcv_msgs).start()
+    def receive_messages(self):
+        """Background thread to receive incoming messages"""
+        while True:
+            try:
+                data = self.client_socket.recv(1024)
+                if not data:
+                    self.display_message("Server disconnected.\n")
+                    break
+                self.display_message(data.decode() + "\n")
+            except:
+                break
 
-def send_msg_to_server(msg):
-    try:
-        client_socket.send(msg.encode())
-    except:
-        add_msg("[Connection lost]")
+    def display_message(self, msg):
+        """Safely update GUI text area"""
+        self.chat_area.config(state="normal")
+        self.chat_area.insert(tk.END, msg)
+        self.chat_area.yview(tk.END)
+        self.chat_area.config(state="disabled")
 
-def close_connection():
-    client_socket.close()
+
+def main():
+    root = tk.Tk()
+    gui = ChatClientGUI(root)
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
