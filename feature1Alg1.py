@@ -14,7 +14,6 @@ def handle_client(client_socket, addr):
                 break  
 
             for other in active_clients:
-                if other != client_socket:
                     other.send(msg)
 
         except Exception:
