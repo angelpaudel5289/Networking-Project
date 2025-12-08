@@ -15,7 +15,6 @@ def handle_client(client_socket, addr):
 
             # Broadcast to all connected clients except sender
             for other in active_clients:
-                if other != client_socket:
                     other.send(msg)
 
         except Exception:
