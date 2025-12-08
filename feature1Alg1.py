@@ -11,9 +11,8 @@ def handle_client(client_socket, addr):
         try:
             msg = client_socket.recv(1024)
             if not msg:
-                break  # client disconnected
+                break  
 
-            # Broadcast to all connected clients except sender
             for other in active_clients:
                 if other != client_socket:
                     other.send(msg)
@@ -21,7 +20,6 @@ def handle_client(client_socket, addr):
         except Exception:
             break
 
-    # Remove and close when client disconnects
     print(f"[DISCONNECTED] {addr}")
     active_clients.remove(client_socket)
     client_socket.close()
@@ -42,7 +40,6 @@ def main():
         client_socket, addr = server.accept()
         active_clients.append(client_socket)
 
-        # Start a new thread for each client
         thread = threading.Thread(target=handle_client, args=(client_socket, addr))
         thread.start()
 
