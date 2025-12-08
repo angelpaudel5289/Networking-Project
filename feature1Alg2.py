@@ -1,31 +1,39 @@
-from socket import *
+import socket
 import threading
+
 server_ip = "127.0.0.1"
-server_port = 5000
-client_socket = socket(AF_INET, SOCK_STREAM)
+server_port = 5555  # Must match server
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((server_ip, server_port))
 
-print("Connected to server: ", (server_ip, server_port) )
-print("Your address: ", client_socket.getsockname())
+print("Connected to server:", (server_ip, server_port))
+print("Your address:", client_socket.getsockname())
 
-def receive_msgs():
-    while True: 
+def receive_messages():
+    """Handles receiving messages from the server in the background."""
+    while True:
         try:
-            data = client_socket.recv(200)
+            data = client_socket.recv(1024)
             if not data:
                 print("Server disconnected.")
                 break
             print(data.decode())
         except:
             break
-thread = threading.Thread(target=receive_msgs)
+
+# Start background thread
+thread = threading.Thread(target=receive_messages)
+thread.daemon = True
 thread.start()
 
+# Main thread sends user messages
 while True:
-    msg = input("")
     try:
+        msg = input("")
         client_socket.send(msg.encode())
     except:
         print("Connection lost.")
         break
+
 client_socket.close()

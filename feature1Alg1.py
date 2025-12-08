@@ -1,36 +1,50 @@
 import socket
 import threading
 
-active_clients = []  
+active_clients = []  # List of connected client sockets
 
-def handle_client(client_socket):
-    """Client handler for receiving & broadcasting messages."""
+def handle_client(client_socket, addr):
+    """Handles messages from a single client and broadcasts them."""
+    print(f"[NEW CONNECTION] {addr} connected.")
+
     while True:
         try:
             msg = client_socket.recv(1024)
             if not msg:
-                break
-            for c in active_clients:
-                if c != client_socket:
-                    c.send(msg)
-        except:
+                break  # client disconnected
+
+            # Broadcast to all connected clients except sender
+            for other in active_clients:
+                if other != client_socket:
+                    other.send(msg)
+
+        except Exception:
             break
 
+    # Remove and close when client disconnects
+    print(f"[DISCONNECTED] {addr}")
     active_clients.remove(client_socket)
     client_socket.close()
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(("0.0.0.0", 5555))
+    
+    # Same port must match client
+    HOST = "0.0.0.0"
+    PORT = 5555
+    
+    server.bind((HOST, PORT))
     server.listen()
 
-    print("[SERVER] Listening on port 5555...")
+    print(f"[SERVER] Listening on {HOST}:{PORT}")
 
     while True:
-        client_socket, _ = server.accept()
+        client_socket, addr = server.accept()
         active_clients.append(client_socket)
 
-        thread = threading.Thread(target=handle_client, args=(client_socket,))
+        # Start a new thread for each client
+        thread = threading.Thread(target=handle_client, args=(client_socket, addr))
         thread.start()
 
-main()
+if __name__ == "__main__":
+    main()
