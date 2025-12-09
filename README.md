@@ -1,13 +1,13 @@
-Team: Akshay_Shishir_Angel
-Class: CSE 3461 Computer Networking
+# Team: Akshay_Shishir_Angel
+# Class: CSE 3461 Computer Networking
 
 This project implements a multi-feature chat application using TCP sockets and Python threading. 
 The application supports:
 
 
 
-Feature 1 — Broadcast Chat
-A server that relays each message to all connected clients.
+ Feature 1 — Broadcast Chat
+ A server that relays each message to all connected clients.
 
 
 
@@ -18,13 +18,13 @@ These clients can directly message one specific user using the format:
 
 
 Feature 3 — GUI Chat Client (Tkinter)
-A graphical chat interface (GUI) using the python library Tkinter for an improved user experience.
+A graphical chat interface (GUI) using the Python library Tkinter for an improved user experience.
 
 All features were tested in:
 
-Simulation mode (localhost)
+- Simulation mode (localhost)
 
-Over-the-air mode (LAN)
+- Over-the-air mode (LAN)
 
 
 
@@ -45,7 +45,7 @@ Key Behaviors
 
 
 Instructions:
-
+```python
 def print_instructions():
     print("Feature 1: Broadcast Chat (Algorithm 1 & Algorithm 2)")
     print("This feature implements a basic multi-client chat system")
@@ -70,7 +70,7 @@ def print_instructions():
 
 if __name__ == "__main__":
     print_instructions()
-
+```
 Files:
 
 feature1Alg1.py
@@ -96,7 +96,7 @@ Key Behaviors
 Instructions for feature 2:
 # feature2.py
 # Simple helper file describing how to run Feature 2 (one-to-one chat)
-
+```python 
 def print_instructions():
     print("Feature 2: One-to-One Chat / Private Messaging")
     print("")
@@ -121,7 +121,7 @@ def print_instructions():
 
 if __name__ == "__main__":
     print_instructions()
-
+```
 Files:
 
 feature2Alg3.py
@@ -147,7 +147,7 @@ Automatic real-time display of incoming messages
 Instructions:
 # feature3.py
 # Simple helper file describing how to run Feature 3 (GUI Chat Client)
-
+```python 
 def print_instructions():
     print("Feature 3: Tkinter GUI Chat Client")
     print("This feature extends Feature 1 by providing a graphical")
@@ -177,7 +177,7 @@ def print_instructions():
 
 if __name__ == "__main__":
     print_instructions()
-
+```
 File
 
-feature3_gui_client.py
+feature3.py
