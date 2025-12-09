@@ -1,12 +1,18 @@
 from socket import *
 import threading
+
 server_ip = "127.0.0.1"
 server_port = 5555
 client_socket = socket(AF_INET, SOCK_STREAM)
 client_socket.connect((server_ip, server_port))
 
-print("Connected to server: ", (server_ip, server_port) )
+print("Connected to server: ", (server_ip, server_port))
 print("Your address: ", client_socket.getsockname())
+
+username = input("Enter your username: ").strip()
+if username == "":
+    username = "Unknown"
+
 
 def receive_msgs():
     while True: 
@@ -18,14 +24,21 @@ def receive_msgs():
             print(data.decode())
         except:
             break
+
 thread = threading.Thread(target=receive_msgs)
 thread.start()
 
 while True:
     msg = input("")
+    if msg.strip() == "":
+        continue
+
+    full_msg = f"{username}: {msg}"
+
     try:
-        client_socket.send(msg.encode())
+        client_socket.send(full_msg.encode())
     except:
         print("Connection lost.")
         break
+
 client_socket.close()

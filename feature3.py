@@ -2,14 +2,17 @@ import socket
 import threading
 import tkinter as tk
 from tkinter import scrolledtext
+import tkinter.simpledialog as simpledialog   
 
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 5555
 
 class ChatClientGUI:
-    def __init__(self, master):
+    def __init__(self, master, username):   
         self.master = master
+        self.username = username            
+
         master.title("Broadcast Chat Client")
         master.configure(bg="#f0f0f0")
         
@@ -41,7 +44,8 @@ class ChatClientGUI:
     def send_msg(self, event=None):
             msg = self.entry.get().strip()
             if msg:
-                self.client_socket.send(msg.encode())
+                full_msg = f"{self.username}: {msg}"   
+                self.client_socket.send(full_msg.encode())
                 self.entry.delete(0, tk.END)
         
     def receive_messages(self):
@@ -59,8 +63,14 @@ class ChatClientGUI:
             self.chat_area.insert(tk.END, msg + "\n")
             self.chat_area.yview(tk.END)
             self.chat_area.config(state = "disabled")
+
+
 if __name__ == "__main__":
         root = tk.Tk()
-        gui = ChatClientGUI(root)
+        
+        username = simpledialog.askstring("Username", "Enter your username:")
+        if not username:
+            username = "Unknown"
+
+        gui = ChatClientGUI(root, username)
         root.mainloop()
-       
