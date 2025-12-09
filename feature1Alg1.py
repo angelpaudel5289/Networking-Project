@@ -28,7 +28,7 @@ def main():
     
     # Same port must match client
     HOST = "0.0.0.0"
-    PORT = 5555
+    PORT = 5050
     
     server.bind((HOST, PORT))
     server.listen()
