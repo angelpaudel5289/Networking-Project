@@ -40,6 +40,37 @@ Key Behaviors
 
 -Messages are forwarded to all connected clients.
 
+# feature1.py
+# Simple helper file describing how to run Feature 1 (Broadcast Chat)
+
+
+Instructions:
+
+def print_instructions():
+    print("Feature 1: Broadcast Chat (Algorithm 1 & Algorithm 2)")
+    print("This feature implements a basic multi-client chat system")
+    print("where every message from one client is broadcast to all")
+    print("other connected clients in real time.")
+    print("1. Start the server (Algorithm 1):")
+    print("   python3 feature1Alg1.py")
+    print("   You may optionally specify a port inside the file.")
+    print("2. Start clients (Algorithm 2) on the same or different machines:")
+    print("   python3 feature1Alg2.py <server_ip> <server_port>")
+    print("")
+    print("   Examples:")
+    print("   Localhost:")
+    print("       python3 feature1Alg2.py 127.0.0.1 5050")
+    print("   Over-the-air (LAN):")
+    print("       python3 feature1Alg2.py <server LAN IP> 5050")
+    print("3. After connecting, simply type messages to broadcast.")
+    print("   All other clients will see them instantly.")
+    print("4. To disconnect a client, type:")
+    print("   /quit")
+
+
+if __name__ == "__main__":
+    print_instructions()
+
 Files:
 
 feature1Alg1.py
@@ -111,6 +142,41 @@ Message typing box
 Send button
 
 Automatic real-time display of incoming messages
+
+
+Instructions:
+# feature3.py
+# Simple helper file describing how to run Feature 3 (GUI Chat Client)
+
+def print_instructions():
+    print("Feature 3: Tkinter GUI Chat Client")
+    print("This feature extends Feature 1 by providing a graphical")
+    print("chat interface built with tkinter. Messages are still sent")
+    print("using the Feature 1 broadcast server.")
+    print("1. Start the broadcast server (Feature 1 / Algorithm 1):")
+    print("   python3 feature1Alg1.py")
+    print("   The GUI requires the broadcast server running in background.")
+    print("2. Start the GUI Chat Client:")
+    print("   python3 feature3_gui.py <server_ip> <server_port>")
+    print("   Examples:")
+    print("   Localhost:")
+    print("       python3 feature3_gui.py 127.0.0.1 5050")
+    print("   Over-the-air (LAN):")
+    print("       python3 feature3_gui.py <server LAN IP> 5050")
+    print("3. Features Included:")
+    print("   Scrollable chat window")
+    print("   Input text box + send button")
+    print("   Threaded receiver to prevent GUI freezing")
+    print("   Real-time broadcast chat from all clients")
+    print("4. Closing the GUI window automatically disconnects the client.")
+    print("Notes:")
+    print("Tkinter is part of Python's standard library — no install needed.")
+    print("Must connect to the Feature 1 server ONLY.")
+    print("Can run multiple GUI windows at once for testing.")
+
+
+if __name__ == "__main__":
+    print_instructions()
 
 File
 
