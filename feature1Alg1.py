@@ -1,7 +1,7 @@
 import socket
 import threading
 
-active_clients = []  # List of connected client sockets
+active_clients = []  
 
 def handle_client(client_socket, addr):
     """Handles messages from a single client and broadcasts them."""
@@ -26,7 +26,6 @@ def handle_client(client_socket, addr):
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
-    # Same port must match client
     HOST = "0.0.0.0"
     PORT = 5050
     

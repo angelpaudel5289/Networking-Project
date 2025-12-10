@@ -1,8 +1,11 @@
 from socket import *
 import threading
 
-server_ip = "127.0.0.1"
-server_port = 5555
+# Local host: "127.0.0.1"
+# Over the air: "75.76.78.170"
+# 0.0.0.0
+server_ip = "75.76.78.170"
+server_port = 5050
 client_socket = socket(AF_INET, SOCK_STREAM)
 client_socket.connect((server_ip, server_port))
 

@@ -5,8 +5,9 @@ from tkinter import scrolledtext
 import tkinter.simpledialog as simpledialog   
 
 
-SERVER_IP = "127.0.0.1"
-SERVER_PORT = 5555
+SERVER_IP = "75.76.78.170"
+SERVER_PORT = 5050
+
 
 class ChatClientGUI:
     def __init__(self, master, username):   
